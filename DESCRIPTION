@@ -17,7 +17,7 @@ Authors@R: c(
     person("Jennifer","Rogers", role = "ctb"),
     person("Charles", "Sese", role = "ctb"),
     person("CJ", "Yetman", email = "cj@cjyetman.com", role = "aut"),
-    person("L", "Ord", email = "ordiology@gmail.com, role = "ctb"),
+    person("L", "Ord", email = "ordiology@gmail.com", role = "ctb"),
     )
 URL: https://christophergandrud.github.io/networkD3/, 
     https://github.com/christophergandrud/networkD3
