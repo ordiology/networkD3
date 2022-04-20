@@ -10,7 +10,7 @@ Downloads](http://cranlogs.r-pkg.org/badges/last-month/networkD3) ![CRAN
 Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/networkD3)
 
 Development version: 0.4.9001 [radialNetwork branch](https://github.com/ordiology/networkD3/tree/radialNetwork)
-Modifications have been made to the `radialNetwork` branch of this fork by `ordiology`:
+Modifications have been made to the [radialNetwork](https://github.com/ordiology/networkD3/tree/radialNetwork) branch of this fork by [ordiology](https://github.com/ordiology/):
 * The height and width of the radialNetwork svg canvas has been changed from 100% to 98% so there is no y-overflow
 * The mouseover font size has been changed from 25px to 1.5 times the original font size
 * There are the following new options that can be passed into the function as arguments:
