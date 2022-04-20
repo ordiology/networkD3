@@ -192,8 +192,7 @@ HTMLWidgets.widget({
         .attr("transform", function(d) { return d.x < 180 ? "translate(11)" : "rotate(180)translate(-11)"; })
         .style("stroke-width", ".5px")
         .style("font", x.options.fontSize*1.5 + "px " + x.options.fontFamily)
-        .style("opacity", 1)
-        .style("fill", x.options.textColour);
+        .style("opacity", 1);
 
     }
 
@@ -215,10 +214,7 @@ HTMLWidgets.widget({
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
         .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
         .style("font", x.options.fontSize + "px " + x.options.fontFamily)
-        .style("opacity", x.options.opacity)
-        .style("fill", function(d) { 
-          return d.data.textColour === undefined ? x.options.textColour : d.data.textColour;
-        });
+        .style("opacity", x.options.opacity);
     }
     
     
