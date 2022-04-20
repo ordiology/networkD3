@@ -10,9 +10,10 @@ HTMLWidgets.widget({
       el.getBoundingClientRect().height
     );
 
+    // LO 2022-04-19: Changed width and height from 100% to 98% to avoid overflow
     d3.select(el).append("svg")
-      .style("width", "100%")
-      .style("height", "100%")
+      .style("width", "98%")
+      .style("height", "98%")
       .append("g")
       .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"
                          + " scale("+diameter/800+","+diameter/800+")");
@@ -104,24 +105,33 @@ HTMLWidgets.widget({
                   .attr("class", "node")
                   .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
                   .on("mouseover", mouseover)
-                  .on("mouseout", mouseout);
+                  .on("mouseout", mouseout)
+                  .on("click", click);
 
     // node circles
+    // LO 2022-04-19: Take stroke/fill colour from data where available and the radius of the circle changed to 5.5 from 4.5
     node.append("circle")
-        .attr("r", 4.5)
-        .style("fill", x.options.nodeColour)
+        .attr("r", 5.5)
+        .style("fill", function(d) {
+          return d.data.nodeColour === undefined ? x.options.nodeColour : d.data.nodeColour;
+        })
         .style("opacity", x.options.opacity)
-        .style("stroke", x.options.nodeStroke)
+        .style("stroke", function(d) {
+          return d.data.nodeStroke === undefined ? x.options.nodeStroke : d.data.nodeStroke;
+        })
         .style("stroke-width", "1.5px");
 
     // node text
+    // LO 2022-04-20: Take text colour from data where available 
     node.append("text")
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
         .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
         .style("font", x.options.fontSize + "px " + x.options.fontFamily)
         .style("opacity", x.options.opacity)
-        .style("fill", x.options.textColour)
+        .style("fill", function(d) { 
+          return d.data.textColour === undefined ? x.options.textColour : d.data.textColour;
+        })
         .text(function(d) { return d.data.name; });
 
     // adjust viewBox to fit the bounds of our tree
@@ -163,32 +173,58 @@ HTMLWidgets.widget({
 
 
     // mouseover event handler
+    // LO 2022-04-19: Changed mouseover font size from 25px to 1.5 times the original font size, changed node colour using d.data.strokeHover if defined or nodeStrokeHover if not, and translated the text 11 instead of 8
     function mouseover() {
+      
       d3.select(this).select("circle").transition()
         .duration(750)
         .attr("r", 9)
+        .style("stroke", function(d) {
+          return d.data.nodeStrokeHover === undefined ? x.options.nodeStrokeHover : d.data.nodeStrokeHover;
+        })
+        .style("fill", function(d) {
+          return d.data.nodeColourHover === undefined ? x.options.nodeColourHover : d.data.nodeColourHover;
+        });
       d3.select(this).select("text").transition()
         .duration(750)
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-        .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+        .attr("transform", function(d) { return d.x < 180 ? "translate(11)" : "rotate(180)translate(-11)"; })
         .style("stroke-width", ".5px")
-        .style("font", "25px " + x.options.fontFamily)
-        .style("opacity", 1);
+        .style("font", x.options.fontSize*1.5 + "px " + x.options.fontFamily)
+        .style("opacity", 1)
+        .style("fill", x.options.textColour);
+
     }
 
     // mouseout event handler
+    // LO 2022-04-19: Changed node stroke colour back to original colour on mouseout and circle radius to 5.5 (instead of 4.5)
     function mouseout() {
       d3.select(this).select("circle").transition()
         .duration(750)
-        .attr("r", 4.5)
+        .attr("r", 5.5)
+        .style("stroke", function(d) {
+          return d.data.nodeStroke === undefined ? x.options.nodeStroke : d.data.nodeStroke;
+        })
+        .style("fill", function(d) {
+          return d.data.nodeColour === undefined ? x.options.nodeColour : d.data.nodeColour;
+        });
       d3.select(this).select("text").transition()
         .duration(750)
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
         .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
         .style("font", x.options.fontSize + "px " + x.options.fontFamily)
-        .style("opacity", x.options.opacity);
+        .style("opacity", x.options.opacity)
+        .style("fill", function(d) { 
+          return d.data.textColour === undefined ? x.options.textColour : d.data.textColour;
+        });
+    }
+    
+    
+    // LO 2022-04-19: Added click action option to allow js to be passed in
+    function click(d) {
+      return eval(x.options.clickAction)
     }
 
     // convert to radial coordinate system

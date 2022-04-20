@@ -1,4 +1,8 @@
 #' Create Reingold-Tilford Tree network diagrams.
+#' 
+#' Edits by LO:
+#' - Added nodeStrokeHover
+#' - Added clickAction
 #'
 #' @param List a hierarchical list object with a root node and children.
 #' @param height height for the network graph's frame area in pixels (if
@@ -13,6 +17,8 @@
 #' circles to be. Multiple formats supported (e.g. hexadecimal).
 #' @param nodeStroke character string specifying the colour you want the node
 #' perimeter to be. Multiple formats supported (e.g. hexadecimal).
+#' @param nodeStrokeHover character string specifying the colour you want the node
+#' perimeter to be on mouseover. Multiple formats supported (e.g. hexadecimal).
 #' @param textColour character string specifying the colour you want the text to
 #' be before they are clicked. Multiple formats supported (e.g. hexadecimal).
 #' @param opacity numeric value of the proportion opaque you would like the
@@ -23,6 +29,8 @@
 #' are valid.  If a single integer is provided, then the value will be
 #' assigned to the right margin. Set the margin appropriately
 #' to accomodate long text labels.
+#' @param clickAction character string with a JavaScript expression to evaluate
+#' when a node is clicked.
 #'
 #'
 #' @examples
@@ -95,10 +103,13 @@ radialNetwork <- function(
                           fontFamily = "serif",
                           linkColour = "#ccc",
                           nodeColour = "#fff",
+                          nodeColourHover = "#fff",
                           nodeStroke = "steelblue",
+                          nodeStrokeHover = "steelblue",
                           textColour = "#111",
                           opacity = 0.9,
-                          margin = NULL)
+                          margin = NULL, 
+                          clickAction = NULL)
 {
     # validate input
     if (!is.list(List))
@@ -115,10 +126,13 @@ radialNetwork <- function(
         fontFamily = fontFamily,
         linkColour = linkColour,
         nodeColour = nodeColour,
+        nodeColourHover = nodeColourHover,
         nodeStroke = nodeStroke,
+        nodeStrokeHover = nodeStrokeHover,
         textColour = textColour,
         margin = margin,
-        opacity = opacity
+        opacity = opacity,
+        clickAction = clickAction
     )
 
     # create widget

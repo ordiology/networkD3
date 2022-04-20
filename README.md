@@ -9,6 +9,21 @@ Status](https://travis-ci.org/christophergandrud/networkD3.svg?branch=master)](h
 Downloads](http://cranlogs.r-pkg.org/badges/last-month/networkD3) ![CRAN
 Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/networkD3)
 
+Development version: 0.4.9001 [radialNetwork branch](https://github.com/ordiology/networkD3/tree/radialNetwork)
+Modifications have been made to the `radialNetwork` branch of this fork by `ordiology`:
+* The height and width of the radialNetwork svg canvas has been changed from 100% to 98% so there is no y-overflow
+* The mouseover font size has been changed from 25px to 1.5 times the original font size
+* There are the following new options that can be passed into the function as arguments:
+    * `nodeStrokeHover`: the colour of all node strokes on mouseover
+    * `nodeColourHover`: the colour of all node fills on mouseover
+    * `clickAction`: a character string with a JavaScript expression to evaluate when a node is clicked
+* Each item in the input data structure can additionally contain the following elements that override the default options passed into the function as arguments:
+    * `textColour`: the colour of the text for that node in the data structure
+    * `nodeColour`: the colour of the fill for that node in the data structure
+    * `nodeStroke`: the colour of the stroke for that node in the data structure
+    * `nodeColourHover`: the colour of the fill for that node in the data structure on mouseover
+    * `nodeStrokeHover`: the colour of the stroke for that node in the data structure on mouseover
+
 This README includes information on set up and a number of basic
 examples. For more information see the package's [main
 page](http://christophergandrud.github.io/networkD3/).
