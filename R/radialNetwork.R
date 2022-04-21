@@ -15,10 +15,14 @@
 #' lines to be. Multiple formats supported (e.g. hexadecimal).
 #' @param nodeColour character string specifying the colour you want the node
 #' circles to be. Multiple formats supported (e.g. hexadecimal).
+#' @param nodeColourHover character string specifying the colour you want the node
+#' circles to be on mouseover. Multiple formats supported (e.g. hexadecimal).
 #' @param nodeStroke character string specifying the colour you want the node
 #' perimeter to be. Multiple formats supported (e.g. hexadecimal).
 #' @param nodeStrokeHover character string specifying the colour you want the node
 #' perimeter to be on mouseover. Multiple formats supported (e.g. hexadecimal).
+#' @param nodeCursor character string specifying the cursor on node mouseover.
+#' Default is "default". Usual CSS options supported.
 #' @param textColour character string specifying the colour you want the text to
 #' be before they are clicked. Multiple formats supported (e.g. hexadecimal).
 #' @param opacity numeric value of the proportion opaque you would like the
@@ -106,6 +110,7 @@ radialNetwork <- function(
                           nodeColourHover = "#fff",
                           nodeStroke = "steelblue",
                           nodeStrokeHover = "steelblue",
+                          nodeCursor = "default",
                           textColour = "#111",
                           opacity = 0.9,
                           margin = NULL, 
@@ -129,6 +134,7 @@ radialNetwork <- function(
         nodeColourHover = nodeColourHover,
         nodeStroke = nodeStroke,
         nodeStrokeHover = nodeStrokeHover,
+        nodeCursor = nodeCursor,
         textColour = textColour,
         margin = margin,
         opacity = opacity,

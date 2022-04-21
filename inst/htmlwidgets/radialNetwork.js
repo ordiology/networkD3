@@ -119,7 +119,8 @@ HTMLWidgets.widget({
         .style("stroke", function(d) {
           return d.data.nodeStroke === undefined ? x.options.nodeStroke : d.data.nodeStroke;
         })
-        .style("stroke-width", "1.5px");
+        .style("stroke-width", "1.5px")
+        .style("cursor", "default");
 
     // node text
     // LO 2022-04-20: Take text colour from data where available 
@@ -184,6 +185,9 @@ HTMLWidgets.widget({
         })
         .style("fill", function(d) {
           return d.data.nodeColourHover === undefined ? x.options.nodeColourHover : d.data.nodeColourHover;
+        })
+        .style("cursor", function(d) {
+          return d.data.nodeCursor === undefined ? x.options.nodeCursor : d.data.nodeCursor;
         });
       d3.select(this).select("text").transition()
         .duration(750)
@@ -214,7 +218,8 @@ HTMLWidgets.widget({
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
         .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
         .style("font", x.options.fontSize + "px " + x.options.fontFamily)
-        .style("opacity", x.options.opacity);
+        .style("opacity", x.options.opacity)
+        .style("cursor", "default");
     }
     
     
