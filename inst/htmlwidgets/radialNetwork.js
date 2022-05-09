@@ -226,12 +226,12 @@ HTMLWidgets.widget({
     
     // LO 2022-04-19: Added click action option to allow js to be passed in
     function click(d) {
-      return eval(x.options.clickAction)
+      return eval(x.options.clickAction);
     }
     
     // LO 2022-04-19: Added double click action option 
     function dblclick(d){ 
-      return eval(x.options.dblClickAction)
+      return eval(x.options.dblClickAction);
     }
     
     // convert to radial coordinate system
