@@ -9,7 +9,7 @@ HTMLWidgets.widget({
       el.getBoundingClientRect().width,
       el.getBoundingClientRect().height
     );
-
+    
     // LO 2022-04-19: Changed width and height from 100% to 98% to avoid overflow
     d3.select(el).append("svg")
       .style("width", "98%")
@@ -17,9 +17,11 @@ HTMLWidgets.widget({
       .append("g")
       .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"
                          + " scale("+diameter/800+","+diameter/800+")");
+                         
     return d3.tree();
 
   },
+  
 
   resize: function(el, width, height, tree) {
     // resize now handled by svg viewBox attribute
@@ -98,7 +100,8 @@ HTMLWidgets.widget({
                   .style("stroke-width", "1.5px")
                   .attr("d", diagonal);
 
-    // draw nodes
+         
+   
     var node = svg.selectAll(".node")
                   .data(root.descendants())
                   .enter().append("g")
@@ -106,8 +109,9 @@ HTMLWidgets.widget({
                   .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
                   .on("mouseover", mouseover)
                   .on("mouseout", mouseout)
-                  .on("click", click)
-                  .on("dblclick", dblclick);;
+                  .on('dblclick', dblclick)
+                  .on('click', click);
+ 
 
     // node circles
     // LO 2022-04-19: Take stroke/fill colour from data where available and the radius of the circle changed to 5.5 from 4.5
@@ -226,11 +230,14 @@ HTMLWidgets.widget({
     
     // LO 2022-04-19: Added click action option to allow js to be passed in
     function click(d) {
+      // console.log("entered click action");
       return eval(x.options.clickAction);
+
     }
     
     // LO 2022-04-19: Added double click action option 
     function dblclick(d){ 
+      // console.log("entered double click action");
       return eval(x.options.dblClickAction);
     }
     

@@ -143,7 +143,7 @@ radialNetwork <- function(
         margin = margin,
         opacity = opacity,
         clickAction = clickAction,
-        dbCclickAction = dblClickAction
+        dblClickAction = dblClickAction
     )
 
     # create widget
