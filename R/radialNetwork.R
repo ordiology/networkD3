@@ -3,6 +3,7 @@
 #' Edits by LO:
 #' - Added nodeStrokeHover
 #' - Added clickAction
+#' - Added dblClickAction
 #'
 #' @param List a hierarchical list object with a root node and children.
 #' @param height height for the network graph's frame area in pixels (if
@@ -35,6 +36,8 @@
 #' to accomodate long text labels.
 #' @param clickAction character string with a JavaScript expression to evaluate
 #' when a node is clicked.
+#' @param dblClickAction character string with a JavaScript expression to evaluate
+#' when a node is double clicked.
 #'
 #'
 #' @examples
@@ -114,7 +117,8 @@ radialNetwork <- function(
                           textColour = "#111",
                           opacity = 0.9,
                           margin = NULL, 
-                          clickAction = NULL)
+                          clickAction = NULL, 
+                          dblClickAction = NULL)
 {
     # validate input
     if (!is.list(List))
@@ -138,7 +142,8 @@ radialNetwork <- function(
         textColour = textColour,
         margin = margin,
         opacity = opacity,
-        clickAction = clickAction
+        clickAction = clickAction,
+        dbCclickAction = dblClickAction
     )
 
     # create widget
