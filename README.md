@@ -18,6 +18,7 @@ Modifications have been made to the [radialNetwork](https://github.com/ordiology
     * `nodeStrokeHover`: the colour of all node strokes on mouseover
     * `nodeColourHover`: the colour of all node fills on mouseover
     * `clickAction`: a character string with a JavaScript expression to evaluate when a node is clicked
+    * `dblClickAction`: a character string with a JavaScript expression to evaluate when a node is double clicked (note that click action is also fired on double click so handle carefully)
     * `nodePointer`: a character string that defines the cursor for all nodes on mouseover
 * Each item in the input data structure can additionally contain the following elements that override the options passed into the function as arguments:
     * `textColour`: the colour of the text for that node in the data structure
