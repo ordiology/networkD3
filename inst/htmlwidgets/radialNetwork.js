@@ -106,7 +106,8 @@ HTMLWidgets.widget({
                   .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
                   .on("mouseover", mouseover)
                   .on("mouseout", mouseout)
-                  .on("click", click);
+                  .on("click", click)
+                  .on("dblclick", dblclick);;
 
     // node circles
     // LO 2022-04-19: Take stroke/fill colour from data where available and the radius of the circle changed to 5.5 from 4.5
@@ -227,7 +228,12 @@ HTMLWidgets.widget({
     function click(d) {
       return eval(x.options.clickAction)
     }
-
+    
+    // LO 2022-04-19: Added double click action option 
+    function dblclick(d){ 
+      return eval(x.options.dblClickAction)
+    }
+    
     // convert to radial coordinate system
     // taken from: https://bl.ocks.org/mbostock/4063550
     function project(x, y) {
