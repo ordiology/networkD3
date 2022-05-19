@@ -14,6 +14,9 @@ Development version: 0.4.9001
 Modifications have been made to the [radialNetwork](https://github.com/ordiology/networkD3/tree/radialNetwork) branch of this fork by [ordiology](https://github.com/ordiology/):
 * The height and width of the radialNetwork svg canvas has been changed from 100% to 98% so there is no y-overflow
 * The mouseover font size has been changed from 25px to 1.5 times the original font size
+* The node circle size has been changed from 4.5px to the font size / 2.5
+* The mouse over node circle size has been changed from 4.5px to the font size / 1.5
+* The node circle text translation has been changed from 8px to 0.72 times the node circle radius
 * There are the following new options that can be passed into the function as arguments:
     * `nodeStrokeHover`: the colour of all node strokes on mouseover
     * `nodeColourHover`: the colour of all node fills on mouseover

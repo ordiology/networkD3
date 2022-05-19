@@ -114,9 +114,9 @@ HTMLWidgets.widget({
  
 
     // node circles
-    // LO 2022-04-19: Take stroke/fill colour from data where available and the radius of the circle changed to 5.5 from 4.5
+    // LO 2022-04-19: Take stroke/fill colour from data where available and the radius of the circle changed to font size / 2.5 from 4.5
     node.append("circle")
-        .attr("r", 5.5)
+        .attr("r", x.options.fontSize/2.5)
         .style("fill", function(d) {
           return d.data.nodeColour === undefined ? x.options.nodeColour : d.data.nodeColour;
         })
@@ -128,11 +128,11 @@ HTMLWidgets.widget({
         .style("cursor", "default");
 
     // node text
-    // LO 2022-04-20: Take text colour from data where available 
+    // LO 2022-04-20: Take text colour from data where available and translate the text a distance of 0.72 times the node circle radius rather than 8px
     node.append("text")
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-        .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+        .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.8 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.8 + ")"; })
         .style("font", x.options.fontSize + "px " + x.options.fontFamily)
         .style("opacity", x.options.opacity)
         .style("fill", function(d) { 
@@ -179,12 +179,12 @@ HTMLWidgets.widget({
 
 
     // mouseover event handler
-    // LO 2022-04-19: Changed mouseover font size from 25px to 1.5 times the original font size, changed node colour using d.data.strokeHover if defined or nodeStrokeHover if not, and translated the text 11 instead of 8
+    // LO 2022-04-19: Changed mouseover font size from 25px to 1.5 times the original font size, changed the circle radius to font size / 1.5, changed the text translation to be a distance of 0.72 times the node circle radius rather than 8px, and changed node colour using d.data.strokeHover if defined or nodeStrokeHover if not
     function mouseover() {
       
       d3.select(this).select("circle").transition()
         .duration(750)
-        .attr("r", 9)
+        .attr("r", x.options.fontSize/1.5)
         .style("stroke", function(d) {
           return d.data.nodeStrokeHover === undefined ? x.options.nodeStrokeHover : d.data.nodeStrokeHover;
         })
@@ -198,7 +198,7 @@ HTMLWidgets.widget({
         .duration(750)
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-        .attr("transform", function(d) { return d.x < 180 ? "translate(11)" : "rotate(180)translate(-11)"; })
+        .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.08 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.08 + ")"; })
         .style("stroke-width", ".5px")
         .style("font", x.options.fontSize*1.5 + "px " + x.options.fontFamily)
         .style("opacity", 1);
@@ -206,11 +206,11 @@ HTMLWidgets.widget({
     }
 
     // mouseout event handler
-    // LO 2022-04-19: Changed node stroke colour back to original colour on mouseout and circle radius to 5.5 (instead of 4.5)
+    // LO 2022-04-19: Changed node stroke colour back to original colour, circle radius to font size / 2.5 (instead of 4.5) and text translation to a distance of 0.72 times the node circle radius rather than 8px
     function mouseout() {
       d3.select(this).select("circle").transition()
         .duration(750)
-        .attr("r", 5.5)
+        .attr("r", x.options.fontSize/2.5)
         .style("stroke", function(d) {
           return d.data.nodeStroke === undefined ? x.options.nodeStroke : d.data.nodeStroke;
         })
@@ -221,7 +221,7 @@ HTMLWidgets.widget({
         .duration(750)
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-        .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+        .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.8 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.8 + ")"; })
         .style("font", x.options.fontSize + "px " + x.options.fontFamily)
         .style("opacity", x.options.opacity)
         .style("cursor", "default");
