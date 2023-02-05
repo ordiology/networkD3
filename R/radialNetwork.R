@@ -4,6 +4,7 @@
 #' - Added nodeStrokeHover
 #' - Added clickAction
 #' - Added dblClickAction
+#' - Added textAbbr
 #'
 #' @param List a hierarchical list object with a root node and children.
 #' @param height height for the network graph's frame area in pixels (if
@@ -34,6 +35,8 @@
 #' are valid.  If a single integer is provided, then the value will be
 #' assigned to the right margin. Set the margin appropriately
 #' to accomodate long text labels.
+#' @param textAbbr integer specifying number of characters to abbreviate display text
+#' prior to hover over. (if \code{NULL} then no abbreviation.
 #' @param clickAction character string with a JavaScript expression to evaluate
 #' when a node is clicked.
 #' @param dblClickAction character string with a JavaScript expression to evaluate
@@ -118,7 +121,8 @@ radialNetwork <- function(
                           opacity = 0.9,
                           margin = NULL, 
                           clickAction = NULL, 
-                          dblClickAction = NULL)
+                          dblClickAction = NULL,
+                          textAbbr = NULL)
 {
     # validate input
     if (!is.list(List))
@@ -143,7 +147,8 @@ radialNetwork <- function(
         margin = margin,
         opacity = opacity,
         clickAction = clickAction,
-        dblClickAction = dblClickAction
+        dblClickAction = dblClickAction,
+        textAbbr = textAbbr
     )
 
     # create widget

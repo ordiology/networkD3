@@ -12,8 +12,8 @@ HTMLWidgets.widget({
     
     // LO 2022-04-19: Changed width and height from 100% to 98% to avoid overflow
     d3.select(el).append("svg")
-      .style("width", "98%")
-      .style("height", "98%")
+      .style("width", "95%")
+      .style("height", "95%")
       .append("g")
       .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"
                          + " scale("+diameter/800+","+diameter/800+")");
@@ -132,13 +132,24 @@ HTMLWidgets.widget({
     node.append("text")
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-        .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.8 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.8 + ")"; })
-        .style("font", x.options.fontSize + "px " + x.options.fontFamily)
+        .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.08 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.08 + ")"; })
+        .style("font", x.options.fontSize*1.5 + "px " + x.options.fontFamily)
         .style("opacity", x.options.opacity)
         .style("fill", function(d) { 
           return d.data.textColour === undefined ? x.options.textColour : d.data.textColour;
         })
-        .text(function(d) { return d.data.name; });
+        .text(function(d) { 
+          return d.data.nameTag === undefined ? d.data.name : d.data.name + " " + d.data.nameTag;
+        }).call(getBB);   
+        
+    // node text background rectangle (added by LO 2023-01-14)
+    node.insert("rect","text")
+        .attr("width", function(d){return d.bbox.width})
+        .attr("height", function(d){return d.bbox.height})
+        .style("fill", "transparent")
+        //.attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.8 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.8 + ")"; });
+        .attr("transform", function(d){return "translate(" + x.options.fontSize/1.8 + ", " + (-d.bbox.height/2) + ")"});
+        
 
     // adjust viewBox to fit the bounds of our tree
     s.attr(
@@ -176,13 +187,35 @@ HTMLWidgets.widget({
           ) + margin.top + margin.bottom
         ].join(",")
       );
+      
+     
+    node.selectAll("text")
+        .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.8 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.8 + ")"; })
+        .style("font-size", x.options.fontSize + "px")
+        .style("opacity", x.options.opacity)
+        .text(function(d) { 
+          if (x.options.textAbbr  !== null & d.data.name.length > x.options.textAbbr) {
+              nodeText = d.data.name.substring(0,x.options.textAbbr)+'...';
+          } else {
+              nodeText = d.data.name;
+          }
+          return d.data.nameTag === undefined ? nodeText : nodeText + " " + d.data.nameTag;
+        });
 
 
     // mouseover event handler
     // LO 2022-04-19: Changed mouseover font size from 25px to 1.5 times the original font size, changed the circle radius to font size / 1.5, changed the text translation to be a distance of 0.72 times the node circle radius rather than 8px, and changed node colour using d.data.strokeHover if defined or nodeStrokeHover if not
     function mouseover() {
       
-      d3.select(this).select("circle").transition()
+      d3.select(this).select("rect")
+        .raise()
+        .transition()
+        .duration(750)
+        .style("fill", "white");
+      
+      d3.select(this).select("circle")
+        .raise()
+        .transition()
         .duration(750)
         .attr("r", x.options.fontSize/1.5)
         .style("stroke", function(d) {
@@ -194,21 +227,29 @@ HTMLWidgets.widget({
         .style("cursor", function(d) {
           return d.data.nodeCursor === undefined ? x.options.nodeCursor : d.data.nodeCursor;
         });
-      d3.select(this).select("text").transition()
+        
+        
+      d3.select(this).select("text")
+        .raise()
+        .text(function(d) {
+          return d.data.nameTag === undefined ? d.data.name : d.data.name + " " + d.data.nameTag;
+        })
+        .transition()
         .duration(750)
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
         .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.08 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.08 + ")"; })
         .style("stroke-width", ".5px")
-        .style("font", x.options.fontSize*1.5 + "px " + x.options.fontFamily)
-        .style("opacity", 1);
+        .style("opacity", 1)
+        .style("font-size", x.options.fontSize*1.5 + "px");
 
     }
 
     // mouseout event handler
     // LO 2022-04-19: Changed node stroke colour back to original colour, circle radius to font size / 2.5 (instead of 4.5) and text translation to a distance of 0.72 times the node circle radius rather than 8px
     function mouseout() {
-      d3.select(this).select("circle").transition()
+      d3.select(this).select("circle")
+        .transition()
         .duration(750)
         .attr("r", x.options.fontSize/2.5)
         .style("stroke", function(d) {
@@ -217,14 +258,30 @@ HTMLWidgets.widget({
         .style("fill", function(d) {
           return d.data.nodeColour === undefined ? x.options.nodeColour : d.data.nodeColour;
         });
-      d3.select(this).select("text").transition()
+        
+      d3.select(this).select("text")
+        .text(function(d) { 
+          if (x.options.textAbbr  !== null & d.data.name.length > x.options.textAbbr) {
+              nodeText = d.data.name.substring(0,x.options.textAbbr)+'...';
+          } else {
+              nodeText = d.data.name;
+          }
+          return d.data.nameTag === undefined ? nodeText : nodeText + " " + d.data.nameTag;
+        })
+        .transition()
         .duration(750)
         .attr("dy", ".31em")
         .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
         .attr("transform", function(d) { return d.x < 180 ? "translate(" + x.options.fontSize/1.8 + ")" : "rotate(180)translate(-" + x.options.fontSize/1.8 + ")"; })
-        .style("font", x.options.fontSize + "px " + x.options.fontFamily)
         .style("opacity", x.options.opacity)
-        .style("cursor", "default");
+        .style("cursor", "default")
+        .style("font-size", x.options.fontSize + "px");
+        
+      d3.select(this).select("rect")
+        .transition()
+        .style("fill", "none")
+        .duration(750)
+        .style("fill", "transparent");
     }
     
     
@@ -246,6 +303,11 @@ HTMLWidgets.widget({
     function project(x, y) {
       var angle = (x - 90) / 180 * Math.PI, radius = y;
       return [radius * Math.cos(angle), radius * Math.sin(angle)];
+    }
+    
+    // function to find bounding box of a selection
+    function getBB(selection) {
+        selection.each(function(d){d.bbox = this.getBBox()});
     }
   },
 });
