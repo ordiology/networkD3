@@ -10,10 +10,9 @@ HTMLWidgets.widget({
       el.getBoundingClientRect().height
     );
     
-    // LO 2022-04-19: Changed width and height from 100% to 98% to avoid overflow
     d3.select(el).append("svg")
-      .style("width", "95%")
-      .style("height", "95%")
+      .style("width", "100%")
+      .style("height", "100%")
       .append("g")
       .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"
                          + " scale("+diameter/800+","+diameter/800+")");
